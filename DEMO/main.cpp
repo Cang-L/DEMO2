@@ -9,23 +9,20 @@
 const double TARGET_FPS = 60.0;
 const double TIME_STEP = 1.0 / TARGET_FPS;
 
-
-Animation anim_boy_rest(_T("img/boy_rest%d.png"), 7, 120);
-
-POINT player_pos = { 100,GROUND_Y };
 int main()
 {
 	LARGE_INTEGER freq, last, now;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&last);
-
 	initgraph(800, 600);
 	BeginBatchDraw();
 
 	bool running = true;
 
 	IMAGE img_background;
+
 	ExMessage msg;
+
 	double accumulator = 0.0;//加载动画
 
 	loadimage(&img_background, _T("img/background.png"));
@@ -58,7 +55,10 @@ int main()
         putimage(0, 0, &img_background);
 
 		int delta_ms = (int)(frame_time * 1000);
-		anim_boy_rest.Play((int)pPlayer->getX(), (int)pPlayer->getY(), delta_ms);
+        delta_ms_copy = delta_ms;
+
+		AnimeUpdate(pPlayer);
+
 		FlushBatchDraw();
 
 		DwmFlush();//垂直同步

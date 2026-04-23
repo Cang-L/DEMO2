@@ -14,11 +14,10 @@ class Player
 	float x, y;    //坐标
 	int hp=20;     //血量
 	int height,wide;
-	enum Status {LEFT,RIGHT}nowStatus;
 public:
+	bool isLeft;
 	float getX() const { return x; }
 	float getY() const { return y; }
-	char getStatus() const { return nowStatus; }
 	float vx, vy;  //速度
 	Player(float x_0, float y_0);
 	~Player() {}
