@@ -1,8 +1,10 @@
 ﻿#include<graphics.h>
 #include<string>
 #include<dwmapi.h>
-#include "Player.h"
+#include "player.h"
 #include "animation.h"
+#include "playeranime.h"
+#include "handleinput.h"
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -19,9 +21,9 @@ int main()
 
 	bool running = true;
 
-	IMAGE img_background;
-
 	ExMessage msg;
+
+	IMAGE img_background;
 
 	double accumulator = 0.0;//加载动画
 
@@ -45,7 +47,8 @@ int main()
 			pPlayer->PhyUpdate((float)TIME_STEP);
 			accumulator -= TIME_STEP;
 		}
-		while (peekmessage(&msg)) 
+
+		while (peekmessage(&msg))
 		{
 			break;
 		}

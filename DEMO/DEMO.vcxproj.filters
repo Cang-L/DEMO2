@@ -24,12 +24,24 @@
     <ClCompile Include="animation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="playeranime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="handleinput.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="animation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="playeranime.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="handleinput.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

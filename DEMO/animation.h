@@ -23,5 +23,4 @@ public:
 	void Play(int x, int y, int delta);
 };
 
-void AnimeUpdate(Player* Player);
 #endif
