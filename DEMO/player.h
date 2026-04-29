@@ -18,9 +18,12 @@ public:
 	float getX() const { return x; }
 	float getY() const { return y; }
 	float vx, vy;  //速度
+
 	Player(float x_0, float y_0);
 	~Player() {}
 
+	bool isHitting = false;
+	float hitTimer;
 	bool isLeft;
 	bool isOnGround = true;
 	bool isAttackingS = false;      //轻攻击
@@ -28,7 +31,5 @@ public:
 
 	void PhyUpdate(float dt);
 };
-
-//void handleInput(Player* Player);
 
 #endif

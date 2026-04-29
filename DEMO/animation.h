@@ -20,7 +20,11 @@ private:
 public:
 	Animation(LPCTSTR path,int num,int interval);  //路径、图片数量、帧间隔
 	~Animation();
+
+	bool attackFinished = false;
 	void Play(int x, int y, int delta);
+	void attackPlay(int x, int y, int delta);
+	void resetAttack();
 };
 
 #endif
