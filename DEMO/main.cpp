@@ -5,6 +5,7 @@
 #include "animation.h"
 #include "playeranime.h"
 #include "handleinput.h"
+#include "slime.h"
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -29,7 +30,8 @@ int main()
 
 	loadimage(&img_background, _T("img/background.png"));
 
-	Player* pPlayer = new Player(100, GROUND_Y);
+	Player* pPlayer = new Player(330, GROUND_Y);
+	Slime* pSlime = new Slime(700,GROUND_Y);  //HOLD
 
 	while (running)
 	{
@@ -45,6 +47,7 @@ int main()
 		{
 			handleInput(pPlayer);
 			pPlayer->PhyUpdate((float)TIME_STEP);
+			pSlime->Move(*pPlayer, pSlime, (float)TIME_STEP);  //HOLD
 			accumulator -= TIME_STEP;
 		}
 
@@ -61,6 +64,7 @@ int main()
         delta_ms_copy = delta_ms;
 
 		AnimeUpdate(pPlayer);
+		pSlime->showSlime(pSlime); //HOLD
 
 		FlushBatchDraw();
 

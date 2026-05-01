@@ -132,12 +132,14 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="playeranime.cpp" />
+    <ClCompile Include="slime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
     <ClInclude Include="handleinput.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playeranime.h" />
+    <ClInclude Include="slime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

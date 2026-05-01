@@ -43,22 +43,28 @@ void Animation::Play(int x, int y, int delta)
 
 void Animation::attackPlay(int x, int y, int delta)
 {
+	static int call_idx = 0;
+	printf("[%d] attack_finished=%d idx_frame=%d timer=%d\n",
+		call_idx++, attackFinished, idx_frame, timer);
 	if (attackFinished)
 	{
 		return;
 	}
 
 	timer += delta;
+
 	if (timer >= interval_ms)
 	{
 		timer = 0;
-		if (idx_frame+1 < (int)frame_right.size())
+		if (idx_frame < (int)frame_right.size() - 1)
 		{
 			idx_frame++;
 		}
-		if (idx_frame == (int)frame_right.size() - 1)
+		else
 		{
 			attackFinished = true;
+			putimage_alpha(x, y, frame_right[idx_frame]);
+			return;
 		}
 	}
 	putimage_alpha(x, y, frame_right[idx_frame]);
