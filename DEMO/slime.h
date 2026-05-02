@@ -17,6 +17,7 @@ private:
 	const int SPEED = 100;
 public:
 	float vx;
+	bool isLeft;
 
 	Slime(float x_0, float y_0);
 
@@ -25,14 +26,12 @@ public:
 
 	void Move(const Player& player,Slime *pSlime, float dt);     //跟踪玩家移动
 
-	bool isLeft;
-
 	bool CheckPlayerCollision(const Player& player)
 	{
 		return false;
 	}
 
-	void showSlime(Slime *pSlime);
+	void showSlime();
 };
 
 #endif

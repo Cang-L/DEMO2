@@ -43,9 +43,6 @@ void Animation::Play(int x, int y, int delta)
 
 void Animation::attackPlay(int x, int y, int delta)
 {
-	static int call_idx = 0;
-	printf("[%d] attack_finished=%d idx_frame=%d timer=%d\n",
-		call_idx++, attackFinished, idx_frame, timer);
 	if (attackFinished)
 	{
 		return;

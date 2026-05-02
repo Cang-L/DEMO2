@@ -1,10 +1,10 @@
 ﻿#include "slime.h"
 #include <cmath>
 
-Animation Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 120);
-Animation Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 120);
-Animation Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 120);
-Animation Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 120);
+Animation Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166);
+Animation Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166);
+Animation Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166);
+Animation Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166);
 
 Slime::Slime(float x_0,float y_0):x(x_0),y(GROUND_Y), vx(0),isLeft(true){};
 
@@ -13,17 +13,23 @@ void Slime::Move(const Player& player, Slime *pSlime, float dt)
 	const float& player_x = player.getX();
 	float length = player_x - x;
 
+	if (length > 0)
+	{
+		isLeft = false;
+	}
+	else
+	{
+		isLeft = true;
+	}
 	if (abs(length) <= 300 && abs(length)>=40)
 	{
 		pSlime->vx = (float)SPEED;
 		if (length > 0)
 		{
-			isLeft = false;
 			x += vx * dt;
 		}
 		else if (length < 0)
 		{
-			isLeft = true;
 			vx = -(float)SPEED;
 			x += vx * dt;
 		}
@@ -38,28 +44,28 @@ void Slime::Move(const Player& player, Slime *pSlime, float dt)
 	}
 }
 
-void Slime::showSlime(Slime* pSlime)
+void Slime::showSlime()
 {
-	if (pSlime->vx != 0)
+	if (vx != 0)
 	{
-		if (pSlime->isLeft)
+		if (isLeft)
 		{
-			Slime_WalkL.Play((int)pSlime->getX(), (int)pSlime->getY(), delta_ms_copy);
+			Slime_WalkL.Play((int)getX(), (int)getY(), delta_ms_copy);
 		}
-		else if (!pSlime->isLeft)
+		else if (!isLeft)
 		{
-			Slime_WalkR.Play((int)pSlime->getX(), (int)pSlime->getY(), delta_ms_copy);
+			Slime_WalkR.Play((int)getX(), (int)getY(), delta_ms_copy);
 		}
 	}
-	else if (pSlime->vx == 0)
+	else if (vx == 0)
 	{
-		if (pSlime->isLeft)
+		if (isLeft)
 		{
-			Slime_IDLEL.Play((int)pSlime->getX(), (int)pSlime->getY(), delta_ms_copy);
+			Slime_IDLEL.Play((int)getX(), (int)getY(), delta_ms_copy);
 		}
-		else if (!pSlime->isLeft)
+		else if (!isLeft)
 		{
-			Slime_IDLER.Play((int)pSlime->getX(), (int)pSlime->getY(), delta_ms_copy);
+			Slime_IDLER.Play((int)getX(), (int)getY(), delta_ms_copy);
 		}
 	}
 }

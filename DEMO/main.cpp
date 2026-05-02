@@ -64,7 +64,7 @@ int main()
         delta_ms_copy = delta_ms;
 
 		AnimeUpdate(pPlayer);
-		pSlime->showSlime(pSlime); //HOLD
+		pSlime->showSlime(); //HOLD
 
 		FlushBatchDraw();
 
