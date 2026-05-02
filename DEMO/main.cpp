@@ -31,8 +31,6 @@ int main()
 	loadimage(&img_background, _T("img/background.png"));
 
 	Player* pPlayer = new Player(330, GROUND_Y);
-	Slime* pSlime = new Slime(700,GROUND_Y);  //HOLD
-
 	while (running)
 	{
 		QueryPerformanceCounter(&now);
@@ -47,7 +45,11 @@ int main()
 		{
 			handleInput(pPlayer);
 			pPlayer->PhyUpdate((float)TIME_STEP);
-			pSlime->Move(*pPlayer, pSlime, (float)TIME_STEP);  //HOLD
+			updateSlime((float)TIME_STEP);
+			for (std::unique_ptr<Slime>& s : slime)
+			{
+				s->Move(*pPlayer, (float)TIME_STEP);
+			}
 			accumulator -= TIME_STEP;
 		}
 
@@ -64,8 +66,10 @@ int main()
         delta_ms_copy = delta_ms;
 
 		AnimeUpdate(pPlayer);
-		pSlime->showSlime(); //HOLD
-
+		for (std::unique_ptr<Slime>& s : slime)
+		{
+			s->showSlime();
+		}
 		FlushBatchDraw();
 
 		DwmFlush();//垂直同步

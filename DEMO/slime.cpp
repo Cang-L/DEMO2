@@ -1,14 +1,13 @@
 ﻿#include "slime.h"
 #include <cmath>
 
-Animation Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166);
-Animation Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166);
-Animation Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166);
-Animation Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166);
+float spawnTimer = 0;
+const float SPAWN_INTERVAL = 2;
+std::vector<std::unique_ptr<Slime>>slime;
 
-Slime::Slime(float x_0,float y_0):x(x_0),y(GROUND_Y), vx(0),isLeft(true){};
+Slime::Slime(float x_0,float y_0):x(x_0),y(y_0), vx(0),isLeft(true),Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166), Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166) , Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166) , Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166) {};
 
-void Slime::Move(const Player& player, Slime *pSlime, float dt)
+void Slime::Move(const Player& player,float dt)
 {
 	const float& player_x = player.getX();
 	float length = player_x - x;
@@ -21,26 +20,24 @@ void Slime::Move(const Player& player, Slime *pSlime, float dt)
 	{
 		isLeft = true;
 	}
-	if (abs(length) <= 300 && abs(length)>=40)
+	if (fabs(length) <= 300 && fabs(length)>=40)
 	{
-		pSlime->vx = (float)SPEED;
-		if (length > 0)
-		{
-			x += vx * dt;
-		}
-		else if (length < 0)
-		{
-			vx = -(float)SPEED;
-			x += vx * dt;
-		}
+		vx = (length > 0) ? (float)SPEED : -(float)SPEED;
 	}
+	else
+	{
+		vx = 0;
+	}
+	x += vx * dt;
 	if (x <= -48)
 	{
 		x = -48;
+		vx = 0;
 	}
 	if (x + 96 >= 800)
 	{
 		x = 800 - 96;
+		vx = 0;
 	}
 }
 
@@ -67,5 +64,15 @@ void Slime::showSlime()
 		{
 			Slime_IDLER.Play((int)getX(), (int)getY(), delta_ms_copy);
 		}
+	}
+}
+
+void updateSlime(float dt)
+{
+	spawnTimer += dt;
+	if (spawnTimer >= SPAWN_INTERVAL)
+	{
+		spawnTimer = 0;
+		slime.emplace_back(std::make_unique<Slime>(750, GROUND_Y));
 	}
 }
