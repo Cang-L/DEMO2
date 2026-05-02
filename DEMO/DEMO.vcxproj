@@ -133,6 +133,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="playeranime.cpp" />
     <ClCompile Include="slime.cpp" />
+    <ClCompile Include="slimectrl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="playeranime.h" />
     <ClInclude Include="slime.h" />
+    <ClInclude Include="slimectrl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

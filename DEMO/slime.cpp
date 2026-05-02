@@ -1,11 +1,7 @@
 ﻿#include "slime.h"
 #include <cmath>
 
-float spawnTimer = 0;
-const float SPAWN_INTERVAL = 2;
-std::vector<std::unique_ptr<Slime>>slime;
-
-Slime::Slime(float x_0,float y_0):x(x_0),y(y_0), vx(0),isLeft(true),Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166), Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166) , Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166) , Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166) {};
+Slime::Slime(float x_0,float y_0):x(x_0),y(y_0), vx(0),isLeft(true),alive(true),Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166), Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166) , Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166) , Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166) {};
 
 void Slime::Move(const Player& player,float dt)
 {
@@ -41,6 +37,11 @@ void Slime::Move(const Player& player,float dt)
 	}
 }
 
+void Slime::setDeath()
+{
+	alive = false;
+}
+
 void Slime::showSlime()
 {
 	if (vx != 0)
@@ -64,15 +65,5 @@ void Slime::showSlime()
 		{
 			Slime_IDLER.Play((int)getX(), (int)getY(), delta_ms_copy);
 		}
-	}
-}
-
-void updateSlime(float dt)
-{
-	spawnTimer += dt;
-	if (spawnTimer >= SPAWN_INTERVAL)
-	{
-		spawnTimer = 0;
-		slime.emplace_back(std::make_unique<Slime>(750, GROUND_Y));
 	}
 }

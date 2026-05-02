@@ -6,6 +6,7 @@
 #include "playeranime.h"
 #include "handleinput.h"
 #include "slime.h"
+#include "slimectrl.h"
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -45,11 +46,8 @@ int main()
 		{
 			handleInput(pPlayer);
 			pPlayer->PhyUpdate((float)TIME_STEP);
-			updateSlime((float)TIME_STEP);
-			for (std::unique_ptr<Slime>& s : slime)
-			{
-				s->Move(*pPlayer, (float)TIME_STEP);
-			}
+			updateSlime(*pPlayer,(float)TIME_STEP);
+			spawnSlime((float)TIME_STEP);
 			accumulator -= TIME_STEP;
 		}
 
@@ -58,6 +56,7 @@ int main()
 			break;
 		}
 
+		removeDeadSlime();
 		cleardevice();
 
         putimage(0, 0, &img_background);
@@ -66,16 +65,14 @@ int main()
         delta_ms_copy = delta_ms;
 
 		AnimeUpdate(pPlayer);
-		for (std::unique_ptr<Slime>& s : slime)
-		{
-			s->showSlime();
-		}
+		drawSlime();
 		FlushBatchDraw();
 
 		DwmFlush();//垂直同步
 	}
 
 	delete pPlayer;
+	clearSlime();
 	pPlayer = nullptr;
 
 	EndBatchDraw();
