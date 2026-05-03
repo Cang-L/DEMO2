@@ -4,6 +4,10 @@
 Slime::Slime(float x_0, float y_0)
 	:x(x_0)
 	, y(y_0)
+	, Width(128)
+	, Height(128)
+	, HitBoxW(64)
+	, HitBoxH(16)
 	, vx(0)
 	, isLeft(true)
 	, alive(true)
@@ -17,7 +21,7 @@ Slime::Slime(float x_0, float y_0)
 	, Slime_DeathR(_T("img/Slime_DeathR%d.png"), 5, 200)
     ,isAttacking(false)
 	,hasAttacked(false)
-    ,remainHurt(0.5f)
+    ,remainHurt(0.0f)
     ,attackDuration(0.25f)
     ,attackStart(0.0f)
     ,attackEnd(0.20f)
@@ -177,7 +181,7 @@ void Slime::showSlime(float dt)
 	}
 }
 
-void Slime::CheckPlayerAttack(const Player& player)
+void Slime::CheckPlayerAttack(Player& player)
 {
 	if (!isAttacking)
 	{
@@ -185,10 +189,60 @@ void Slime::CheckPlayerAttack(const Player& player)
 	}
 	if (isAttacking && attackTimer >= attackStart && attackTimer <= attackEnd && !hasAttacked)
 	{
+		if (CheckPlayerCollision(player))
+		{
+			player.takeDamage(1);
+			hasAttacked = true;
+		}
 	}
 }
 
-void takeDamage(int damage)
+bool Slime::CheckPlayerCollision(const Player& player)
 {
+	float pcx = player.getX() + player.Width / 2;   //player's central x 
+	float pcy = player.getY() + player.Height / 2;  //player's central y
+	float dir = 1;
+	float scx = getX() + Width / 2;                 //slime's central x
+	float scy = getY() + Height / 2;                //slime's central y
+	if (isLeft)
+	{
+		if (scx - pcx >= 0 && scx - pcx <= HitBoxW && fabs(scy - pcy) <= HitBoxH)
+		{
+			return true;
+		}
+	}
+	if (!isLeft)
+	{
+		if (pcx - scx >= 0 && pcx - scx <= HitBoxW && fabs(scy - pcy) <= HitBoxH)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
+void Slime::takeDamage(int damage)
+{
+	if (!alive)
+	{
+		return;
+	}
+	hp -= damage;
+	if (hp <= 0)
+	{
+		alive = false;
+	}
+	else
+	{
+		getHurt = true;
+		remainHurt = 0.2f;
+		if (isLeft)
+		{
+			x += 20.0f;
+		}
+		else
+		{
+			x -= 20.0f;
+		}
+	}
 }

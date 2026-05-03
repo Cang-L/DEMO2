@@ -12,7 +12,7 @@ extern float INTERVAL;
 
 void spawnSlime(float dt);                          //周期添加Slime
 void addSlime(float x, float y);                    //添加单只Slime
-void updateSlime(const Player& player, float dt);   //所有Slime的Move操作
+void updateSlime(Player& player, float dt);   //所有Slime的Move操作
 void removeDeadSlime();                             //移除death Slime
 void drawSlime();                                   //所有Slime的showSlime操作
 void clearSlime();                                  //清除所有Slime

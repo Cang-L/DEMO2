@@ -25,6 +25,10 @@ private:
 
 public:
 	float vx;
+	float Width;
+	float Height;
+	float HitBoxW;
+	float HitBoxH;
 
 	bool isAttacking;
 	bool isLeft;
@@ -43,14 +47,16 @@ public:
 	float remainHurt;       //硬直计数
 
 	Slime(float x_0, float y_0);
+	~Slime() {}
 
 	float getX() const { return x; }
 	float getY() const { return y; }
 
 	void Move(const Player& player,float dt);        //跟踪玩家移动
 	void takeDamage(int damage);
-	void CheckPlayerAttack(const Player& player); //碰撞箱设置
 
+	void CheckPlayerAttack(Player& player);    //攻击检查
+	bool CheckPlayerCollision(const Player& player);
 	
 	bool isAlive() const                             //检查是否存活
 	{

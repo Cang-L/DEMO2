@@ -23,8 +23,8 @@ public:
 	Player(float x_0, float y_0);
 	~Player() {}
 
-	int height, width;
-	float hitTimer;
+	float Height, Width;
+	float hitTimer; 
 	bool isLeft;
 	bool isOnGround = true;
 	bool isHitting = false;         //攻击（轻重）
@@ -32,8 +32,10 @@ public:
 	bool freeHurt = false;          //free from being hurt
 	bool isAttackingS = false;      //轻攻击
 	bool isAttackingH = false;      //重攻击
+
 	bool checkAlive();
 	void PhyUpdate(float dt);
+	void takeDamage(int num);
 };
 
 #endif

@@ -7,7 +7,16 @@ const float GRAVITY = 1200.0;     //重力加速度(像素每二次方秒)
 const float JUMP_SPEED = -450.0;  //跳跃初速度(像素每秒)
 const float MOVE_SPEED = 250.0;   //水平移动速度
 
-Player::Player(float x_0, float y_0) :x(x_0), y(y_0),vx(0),vy(0),height(64),width(64),isLeft(false),hitTimer(0){}
+Player::Player(float x_0, float y_0) 
+	:x(x_0)
+	,y(y_0)
+	,vx(0)
+	,vy(0)
+	,Height(128)
+	,Width(128)
+	,isLeft(false)
+	,hitTimer(0)
+    {}
 
 void Player::PhyUpdate(float dt) 
 {
@@ -63,4 +72,21 @@ bool Player::checkAlive()
 		alive = false;
 	}
 	return alive;
+}
+
+void Player::takeDamage(int num)
+{
+	if (!alive)
+	{
+		return;
+	}
+	hp -= num;
+	if (hp <= 0)
+	{
+		alive = false;
+	}
+	else 
+	{
+		getHurt = true;
+	}
 }

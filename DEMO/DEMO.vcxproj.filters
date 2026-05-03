@@ -36,9 +36,6 @@
     <ClCompile Include="slimectrl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="rectcollision.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -57,9 +54,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="slimectrl.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="rectcollision.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

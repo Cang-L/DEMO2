@@ -15,13 +15,14 @@ void addSlime(float x, float y)
 	pSlime[slimecount++] = new Slime(x, y);
 }
 
-void updateSlime(const Player& player, float dt)
+void updateSlime(Player& player, float dt)
 {
 	for (int i = 0; i < slimecount; ++i)
 	{
 		if (pSlime[i]->isAlive())
 		{
 			pSlime[i]->Move(player,dt);
+			pSlime[i]->CheckPlayerAttack(player);
 		}
 	}
 }

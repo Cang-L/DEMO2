@@ -132,7 +132,6 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="playeranime.cpp" />
-    <ClCompile Include="rectcollision.cpp" />
     <ClCompile Include="slime.cpp" />
     <ClCompile Include="slimectrl.cpp" />
   </ItemGroup>
@@ -141,7 +140,6 @@
     <ClInclude Include="handleinput.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playeranime.h" />
-    <ClInclude Include="rectcollision.h" />
     <ClInclude Include="slime.h" />
     <ClInclude Include="slimectrl.h" />
   </ItemGroup>
