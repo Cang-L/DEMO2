@@ -60,8 +60,6 @@ void Animation::attackPlay(int x, int y, int delta)
 		else
 		{
 			attackFinished = true;
-			putimage_alpha(x, y, frame_right[idx_frame]);
-			return;
 		}
 	}
 	putimage_alpha(x, y, frame_right[idx_frame]);

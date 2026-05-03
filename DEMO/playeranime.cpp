@@ -18,65 +18,7 @@ void AnimeUpdate(Player* Player)
 { 
 	if (Player)
 	{
-		if (Player->checkAlive())
-		{
-			if (!Player->getHurt)
-			{
-				if (!Player->isHitting)
-				{
-					if (Player->isLeft && (abs(Player->vx) <= 20.0f || Player->isOnGround == false))
-					{
-						Knight_IdleL.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-					else if (Player->isLeft == false && (abs(Player->vx) <= 20.0f || Player->isOnGround == false))
-					{
-						Knight_IdleR.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-					else if (Player->isLeft && (abs(Player->vx) > 20.0f && Player->isOnGround == true))
-					{
-						Knight_RunL.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-					else if (Player->isLeft == false && (abs(Player->vx) > 20.0f && Player->isOnGround == true))
-					{
-						Knight_RunR.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-				}
-				else if (Player->isAttackingH)      //重攻击
-				{
-					if (Player->isLeft)
-					{
-						Knight_AttackHL.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-					else
-					{
-						Knight_AttackHR.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-				}
-				else if (Player->isAttackingS)      //轻攻击
-				{
-					if (Player->isLeft)
-					{
-						Knight_AttackSL.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-					else
-					{
-						Knight_AttackSR.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-					}
-				}
-			}
-			else if (Player->getHurt)    //HOLD
-			{
-				if (Player->isLeft)
-				{
-					Knight_HurtL.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-				}
-				else
-				{
-					Knight_HurtR.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
-				}
-			}
-		}
-		else if (!Player->checkAlive())         //战败
+		if (!Player->isAlive())         //战败
 		{
 			if (Player->isLeft)
 			{
@@ -86,7 +28,62 @@ void AnimeUpdate(Player* Player)
 			{
 				Knight_DeathR.deathPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
 			}
-
+			return;
+		}
+		if (Player->getHurt)    //HOLD
+		{
+			if (Player->isLeft)
+			{
+				Knight_HurtL.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			else
+			{
+				Knight_HurtR.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			return;
+		}
+		if (Player->isAttackingH)      //重攻击
+		{
+			if (Player->isLeft)
+			{
+				Knight_AttackHL.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			else
+			{
+				Knight_AttackHR.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			return;
+		}
+		if (Player->isAttackingS)      //轻攻击
+		{
+			if (Player->isLeft)
+			{
+				Knight_AttackSL.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			else
+			{
+				Knight_AttackSR.attackPlay((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			return;
+		}
+		if (!Player->isAttackingH&&!Player->isAttackingS)
+		{
+			if (Player->isLeft && (abs(Player->vx) <= 20.0f || Player->isOnGround == false))
+			{
+				Knight_IdleL.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			else if (Player->isLeft == false && (abs(Player->vx) <= 20.0f || Player->isOnGround == false))
+			{
+				Knight_IdleR.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			else if (Player->isLeft && (abs(Player->vx) > 20.0f && Player->isOnGround == true))
+			{
+				Knight_RunL.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
+			else if (Player->isLeft == false && (abs(Player->vx) > 20.0f && Player->isOnGround == true))
+			{
+				Knight_RunR.Play((int)Player->getX(), (int)Player->getY(), delta_ms_copy);
+			}
 		}
 	}
 };

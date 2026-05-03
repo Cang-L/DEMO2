@@ -47,7 +47,6 @@ public:
 	float remainHurt;       //硬直计数
 
 	Slime(float x_0, float y_0);
-	~Slime() {}
 
 	float getX() const { return x; }
 	float getY() const { return y; }

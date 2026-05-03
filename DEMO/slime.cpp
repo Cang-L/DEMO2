@@ -201,7 +201,6 @@ bool Slime::CheckPlayerCollision(const Player& player)
 {
 	float pcx = player.getX() + player.Width / 2;   //player's central x 
 	float pcy = player.getY() + player.Height / 2;  //player's central y
-	float dir = 1;
 	float scx = getX() + Width / 2;                 //slime's central x
 	float scy = getY() + Height / 2;                //slime's central y
 	if (isLeft)
