@@ -13,8 +13,9 @@ class Player
 {
 	float x, y;    //坐标
 	int hp=20;     //血量
-	int height,width;
+	bool alive = true;
 public:
+	int getHP() const { return hp; }
 	float getX() const { return x; }
 	float getY() const { return y; }
 	float vx, vy;  //速度
@@ -22,13 +23,16 @@ public:
 	Player(float x_0, float y_0);
 	~Player() {}
 
-	bool isHitting = false;
+	int height, width;
 	float hitTimer;
 	bool isLeft;
 	bool isOnGround = true;
+	bool isHitting = false;         //攻击（轻重）
+	bool getHurt = false;
+	bool freeHurt = false;          //free from being hurt
 	bool isAttackingS = false;      //轻攻击
 	bool isAttackingH = false;      //重攻击
-
+	bool checkAlive();
 	void PhyUpdate(float dt);
 };
 

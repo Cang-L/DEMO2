@@ -6,7 +6,7 @@ void handleInput(Player* Player)
 {
 	if (Player)
 	{
-		if (!Player->isHitting)
+		if (!Player->isHitting && Player->checkAlive() && !Player->getHurt)
 		{
 			if (GetAsyncKeyState('A') & 0x8000)
 			{

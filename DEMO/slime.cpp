@@ -1,12 +1,89 @@
 ﻿#include "slime.h"
 #include <cmath>
 
-Slime::Slime(float x_0,float y_0):x(x_0),y(y_0), vx(0),isLeft(true),alive(true),Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166), Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166) , Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166) , Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166) {};
+Slime::Slime(float x_0, float y_0)
+	:x(x_0)
+	, y(y_0)
+	, vx(0)
+	, isLeft(true)
+	, alive(true)
+	, getHurt(false)
+	, animeFinish(false)
+	, Slime_WalkL(_T("img/Slime_walkL%d.png"), 4, 166)
+	, Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166)
+	, Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166)
+	, Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166)
+	, Slime_DeathL(_T("img/Slime_DeathL%d.png"), 5, 200)
+	, Slime_DeathR(_T("img/Slime_DeathR%d.png"), 5, 200)
+    ,isAttacking(false)
+	,hasAttacked(false)
+    ,remainHurt(0.5f)
+    ,attackDuration(0.25f)
+    ,attackStart(0.0f)
+    ,attackEnd(0.20f)
+	,attackArea(100.0f)
+    ,cooldownTimer(0.0f)
+	,attackCooldown(2.0f)
+	,attackTimer(0.0f)
+    {}
 
 void Slime::Move(const Player& player,float dt)
 {
 	const float& player_x = player.getX();
 	float length = player_x - x;
+
+	if (remainHurt > 0.0f)
+	{
+		remainHurt -= dt;
+		if (remainHurt <= 0.0f)
+		{
+			remainHurt = 0;
+			getHurt = false;
+		}
+		return;
+	}
+
+	if (!isAlive())
+	{
+		return;
+	}
+
+	if (isAttacking)
+	{
+		attackTimer += dt;
+		float chargelen = player_x - x;
+		if (chargelen > 0)
+		{
+			isLeft = false;
+		}
+		else
+		{
+			isLeft = true;
+		}
+		vx = (chargelen > 0) ? (float)chargeSpeed : -(float)chargeSpeed;
+		float tempx = x + vx * dt;
+		if ((isLeft && tempx < player.getX()) || (!isLeft && tempx > player.getX()))  //防止超过Player的位置
+		{
+			tempx = player.getX();
+			isAttacking = false;
+			cooldownTimer = attackCooldown;
+			attackTimer = 0;
+		}
+		x = tempx;
+
+		if (attackTimer >= attackDuration)
+		{
+			isAttacking = false;
+			cooldownTimer = attackCooldown;
+			attackTimer = 0;
+		}
+		return;
+	}
+
+	if (cooldownTimer > 0)
+	{
+		cooldownTimer -= dt;
+	}
 
 	if (length > 0)
 	{
@@ -16,7 +93,15 @@ void Slime::Move(const Player& player,float dt)
 	{
 		isLeft = true;
 	}
-	if (fabs(length) <= 300 && fabs(length)>=40)
+
+	if (fabs(length) < attackArea && cooldownTimer <= 0 && !isAttacking)
+	{
+		isAttacking = true;
+		attackTimer = 0;
+		return;
+	}
+
+	if (fabs(length) <= 400 && fabs(length) >= attackArea)
 	{
 		vx = (length > 0) ? (float)SPEED : -(float)SPEED;
 	}
@@ -42,28 +127,68 @@ void Slime::setDeath()
 	alive = false;
 }
 
-void Slime::showSlime()
+void Slime::showSlime(float dt)
 {
-	if (vx != 0)
+	if (isAlive())
 	{
-		if (isLeft)
+		if (vx != 0)
 		{
-			Slime_WalkL.Play((int)getX(), (int)getY(), delta_ms_copy);
+			if (isLeft)
+			{
+				Slime_WalkL.Play((int)getX(), (int)getY(), delta_ms_copy);
+			}
+			else if (!isLeft)
+			{
+				Slime_WalkR.Play((int)getX(), (int)getY(), delta_ms_copy);
+			}
 		}
-		else if (!isLeft)
+		else if (vx == 0)
 		{
-			Slime_WalkR.Play((int)getX(), (int)getY(), delta_ms_copy);
+			if (isLeft)
+			{
+				Slime_IDLEL.Play((int)getX(), (int)getY(), delta_ms_copy);
+			}
+			else if (!isLeft)
+			{
+				Slime_IDLER.Play((int)getX(), (int)getY(), delta_ms_copy);
+			}
 		}
 	}
-	else if (vx == 0)
+	else if (!isAlive())
 	{
-		if (isLeft)
+		float INTERVAL = 1.0f;
+		INTERVAL -= dt;
+		if (INTERVAL > 0)
 		{
-			Slime_IDLEL.Play((int)getX(), (int)getY(), delta_ms_copy);
+			if (isLeft)
+			{
+				Slime_DeathL.Play((int)getX(), (int)getY(), delta_ms_copy);
+			}
+			else if (!isLeft)
+			{
+				Slime_DeathR.Play((int)getX(), (int)getY(), delta_ms_copy);
+			}
 		}
-		else if (!isLeft)
+		else if(INTERVAL <=0)
 		{
-			Slime_IDLER.Play((int)getX(), (int)getY(), delta_ms_copy);
+			animeFinish = true;
+			return;
 		}
 	}
+}
+
+void Slime::CheckPlayerAttack(const Player& player)
+{
+	if (!isAttacking)
+	{
+		return;
+	}
+	if (isAttacking && attackTimer >= attackStart && attackTimer <= attackEnd && !hasAttacked)
+	{
+	}
+}
+
+void takeDamage(int damage)
+{
+
 }

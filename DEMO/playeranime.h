@@ -12,6 +12,10 @@ extern Animation Knight_AttackSL;
 extern Animation Knight_AttackSR;
 extern Animation Knight_AttackHL;
 extern Animation Knight_AttackHR;
+extern Animation Knight_DeathL;
+extern Animation Knight_DeathR;
+extern Animation Knight_HurtL;
+extern Animation Knight_HurtR;
 
 void AnimeUpdate(Player* Player);
 

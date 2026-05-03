@@ -24,6 +24,7 @@ public:
 	bool attackFinished = false;
 	void Play(int x, int y, int delta);
 	void attackPlay(int x, int y, int delta);
+	void deathPlay(int x, int y, int delta);
 	void resetAttack();
 };
 

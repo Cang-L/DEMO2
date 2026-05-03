@@ -67,6 +67,24 @@ void Animation::attackPlay(int x, int y, int delta)
 	putimage_alpha(x, y, frame_right[idx_frame]);
 }
 
+void Animation::deathPlay(int x, int y, int delta)
+{
+	if (idx_frame < (int)frame_right.size() - 1)
+	{
+		timer += delta;
+		if (timer >= interval_ms)
+		{
+			timer = 0;
+			idx_frame++;
+			putimage_alpha(x, y, frame_right[idx_frame]);
+		}
+	}
+	else
+	{
+		putimage_alpha(x, y, frame_right[(int)frame_right.size() - 1]);
+	}
+}
+
 void Animation::resetAttack()
 {
 	idx_frame = 0;

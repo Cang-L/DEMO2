@@ -31,7 +31,7 @@ void removeDeadSlime()
 	int i = 0;
 	while (i < slimecount)
 	{
-		if (!pSlime[i]->isAlive())
+		if (!pSlime[i]->isAlive() && pSlime[i]->animeFinish)
 		{
 			delete pSlime[i];
 			pSlime[i] = pSlime[slimecount - 1];
@@ -48,7 +48,7 @@ void drawSlime()
 {
 	for (int i = 0; i < slimecount; ++i) 
 	{
-		pSlime[i]->showSlime();
+		pSlime[i]->showSlime(delta_ms_copy);
 	}
 }
 
