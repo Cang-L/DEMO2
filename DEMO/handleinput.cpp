@@ -35,6 +35,7 @@ void handleInput(Player* Player)
 	if ((GetAsyncKeyState('K') & 0x8000) && !Player->isAttackingS && Player->isOnGround)
 	{
 		Player->isAttackingS = true;
+		Player->hasHit = false;
 		Player->attackTimerS = 0.0f;
 		if (Player->isLeft)
 		{
@@ -48,6 +49,7 @@ void handleInput(Player* Player)
 	if ((GetAsyncKeyState('L') & 0x8000) && !Player->isAttackingH && Player->isOnGround == true)
 	{
 		Player->isAttackingH = true;
+		Player->hasHit = false;
 		Player->attackTimerH = 0;
 		if (Player->isLeft)
 		{

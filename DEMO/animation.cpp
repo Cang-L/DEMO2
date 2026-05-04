@@ -67,20 +67,28 @@ void Animation::attackPlay(int x, int y, int delta)
 
 void Animation::deathPlay(int x, int y, int delta)
 {
-	if (idx_frame < (int)frame_right.size() - 1)
+	if (deathFinished)
 	{
-		timer += delta;
-		if (timer >= interval_ms)
+		putimage_alpha(x, y, frame_right[frame_right.size()-1]);
+		return;
+	}
+
+    timer += delta;
+	if (timer >= interval_ms)
+	{
+	    timer = 0;
+		if (idx_frame < frame_right.size() - 1)
 		{
-			timer = 0;
 			idx_frame++;
+		}
+		else
+		{
+			deathFinished = true;
 			putimage_alpha(x, y, frame_right[idx_frame]);
+			return;
 		}
 	}
-	else
-	{
-		putimage_alpha(x, y, frame_right[(int)frame_right.size() - 1]);
-	}
+	putimage_alpha(x, y, frame_right[idx_frame]);
 }
 
 void Animation::resetAttack()
@@ -88,6 +96,13 @@ void Animation::resetAttack()
 	idx_frame = 0;
 	timer = 0;
 	attackFinished = false;
+}
+
+void Animation::resetDeath()
+{
+	idx_frame = 0;
+	timer = 0;
+	deathFinished = false;
 }
 
 void putimage_alpha(int x, int y, IMAGE* img)

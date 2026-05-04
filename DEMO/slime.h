@@ -35,16 +35,20 @@ public:
 	bool alive;
 	bool getHurt;           //受伤(硬直)
 	bool animeFinish;       //!isAlive()&&animeFinish 后 delete
+	bool invincible;
 
-	float attackTimer;      //攻击计数
+	float attackTimer;      //攻击计时
 	float attackCooldown;   //攻击间隔
 	float attackDuration;   //攻击时长
 	float attackStart;      //判定开始时间
 	float attackEnd;        //判定结束时间
 	float attackArea;       //攻击距离
 	float hasAttacked;      //已攻击
-	float cooldownTimer;    //攻击间隔计数
-	float remainHurt;       //硬直计数
+	float cooldownTimer;    //攻击间隔计时
+	float remainHurt;       //硬直计时
+	float deathAnimeTimer;  //死亡动画计时
+	float invincibleTimer;  //无敌时间
+
 
 	Slime(float x_0, float y_0);
 
@@ -52,7 +56,7 @@ public:
 	float getY() const { return y; }
 
 	void Move(const Player& player,float dt);        //跟踪玩家移动
-	void takeDamage(int damage);
+	void takeDamage(int damage,float Dir);
 
 	void CheckPlayerAttack(Player& player);    //攻击检查
 	bool CheckPlayerCollision(const Player& player);

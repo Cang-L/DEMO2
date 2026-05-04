@@ -11,8 +11,8 @@ Animation Knight_AttackHL(_T("img/Knight-AttackHL%d.png"), 9, 120);
 Animation Knight_AttackHR(_T("img/Knight-AttackHR%d.png"), 9, 120);
 Animation Knight_DeathL(_T("img/Knight-DeathL%d.png"), 7, 240);
 Animation Knight_DeathR(_T("img/Knight-DeathR%d.png"), 7, 240);
-Animation Knight_HurtL(_T("img/Knight-HurtL%d.png"), 6, 120);
-Animation Knight_HurtR(_T("img/Knight-HurtR%d.png"), 6, 120);
+Animation Knight_HurtL(_T("img/Knight-HurtL%d.png"), 6, 50);
+Animation Knight_HurtR(_T("img/Knight-HurtR%d.png"), 6, 50);
 
 void AnimeUpdate(Player* Player)
 { 

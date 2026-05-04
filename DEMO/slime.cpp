@@ -17,10 +17,11 @@ Slime::Slime(float x_0, float y_0)
 	, Slime_WalkR(_T("img/Slime_walkR%d.png"), 4, 166)
 	, Slime_IDLEL(_T("img/Slime_IDLEL%d.png"), 4, 166)
 	, Slime_IDLER(_T("img/Slime_IDLER%d.png"), 4, 166)
-	, Slime_DeathL(_T("img/Slime_DeathL%d.png"), 5, 200)
-	, Slime_DeathR(_T("img/Slime_DeathR%d.png"), 5, 200)
+	, Slime_DeathL(_T("img/Slime_DeathL%d.png"), 5, 100)
+	, Slime_DeathR(_T("img/Slime_DeathR%d.png"), 5, 100)
     ,isAttacking(false)
 	,hasAttacked(false)
+	,invincible(false)
     ,remainHurt(0.0f)
     ,attackDuration(0.25f)
     ,attackStart(0.0f)
@@ -29,6 +30,8 @@ Slime::Slime(float x_0, float y_0)
     ,cooldownTimer(0.0f)
 	,attackCooldown(2.0f)
 	,attackTimer(0.0f)
+	,deathAnimeTimer(0.0f)
+	,invincibleTimer(-1.0f)
     {}
 
 void Slime::Move(const Player& player,float dt)
@@ -36,6 +39,14 @@ void Slime::Move(const Player& player,float dt)
 	const float& player_x = player.getX();
 	float length = player_x - x;
 
+	if (invincibleTimer > 0)
+	{
+		invincibleTimer -= dt;
+		if (invincibleTimer <= 0)
+		{
+			invincible = false;
+		}
+	}
 	if (remainHurt > 0.0f)
 	{
 		remainHurt -= dt;
@@ -160,9 +171,13 @@ void Slime::showSlime(float dt)
 	}
 	else if (!isAlive())
 	{
-		float INTERVAL = 1.0f;
-		INTERVAL -= dt;
-		if (INTERVAL > 0)
+		if (animeFinish) 
+		{
+			return;
+		}
+		
+		deathAnimeTimer += dt;
+		if (deathAnimeTimer < 1.0f)
 		{
 			if (isLeft)
 			{
@@ -173,10 +188,9 @@ void Slime::showSlime(float dt)
 				Slime_DeathR.Play((int)getX(), (int)getY(), delta_ms_copy);
 			}
 		}
-		else if(INTERVAL <=0)
+		else
 		{
 			animeFinish = true;
-			return;
 		}
 	}
 }
@@ -220,28 +234,31 @@ bool Slime::CheckPlayerCollision(const Player& player)
 	return false;
 }
 
-void Slime::takeDamage(int damage)
+void Slime::takeDamage(int damage,float Dir)
 {
 	if (!alive)
 	{
 		return;
 	}
+	if (invincible)
+	{
+		return;
+	}
+
 	hp -= damage;
 	if (hp <= 0)
 	{
 		alive = false;
+		deathAnimeTimer = 0.0f;
+		animeFinish = false;
+		vx = 0;
+		return;
 	}
-	else
-	{
-		getHurt = true;
-		remainHurt = 0.2f;
-		if (isLeft)
-		{
-			x += 20.0f;
-		}
-		else
-		{
-			x -= 20.0f;
-		}
-	}
+
+	getHurt = true;
+	remainHurt = 0.2f;
+
+	vx = Dir * 100.0f;
+	invincible = true;
+	invincibleTimer = 0.2f;
 }

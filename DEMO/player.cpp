@@ -16,18 +16,18 @@ Player::Player(float x_0, float y_0)
 	,vy(0)
 	,Height(128)
 	,Width(128)
-	,HitBoxW(64)
+	,HitBoxW(80)
 	,HitBoxH(16)
 	,isLeft(false)
 	,hitDurationS(0.63f)
 	,hitDurationH(1.08f)
 	,invincibleTimer(-1.0f)
-	,HurtTime(-1.0f)
-	,attackTimerH(-1.0)
-	,attackStartH(0.24f)
-	,attackEndH(0.96f)
-	,attackTimerS(-1.0)
-	,attackStartS(0.0f)
+	,HurtTime(0.0f)
+	,attackTimerH(0.0f)
+	,attackStartH(0.72f)
+	,attackEndH(1.08f)
+	,attackTimerS(0.0f)
+	,attackStartS(0.18f)
 	,attackEndS(0.54f)
     {}
 
@@ -139,7 +139,7 @@ void Player::takeDamage(int num)
 	hp -= num;
 	if (hp <= 0)
 	{
-		alive = false;
+		onDeath();
 		return;
 	}
 
@@ -165,31 +165,37 @@ void Player::takeDamage(int num)
 
 void Player::checkSlimeAttack(Slime& slime)
 {
+	if (getHurt)
+	{
+		return;
+	}
 	if (!isAttackingH&&!isAttackingS)
 	{
 		return;
 	}
 	if (isAttackingH && attackTimerH >= attackStartH && attackTimerH <= attackEndH)
 	{
-		if (checkSlimeCollision(slime))
+		if (!hasHit && checkSlimeCollision(slime))
 		{
-			slime.takeDamage(2);
+			slime.takeDamage(2, (slime.getX() > getX()) ? 1.0f : -1.0f);
+			hasHit = true;
 		}
 	}
 	if (isAttackingS && attackTimerS >= attackStartS && attackTimerS <= attackEndS)
 	{
-		if (checkSlimeCollision(slime))
+		if (!hasHit && checkSlimeCollision(slime))
 		{
-			slime.takeDamage(1);
+			slime.takeDamage(1,(slime.getX()>getX())?1.0f:-1.0f);
+			hasHit = true;
 		}
 	}
 }
 bool Player::checkSlimeCollision(const Slime& slime) 
 {
-	float pcx = slime.getX() + slime.Width / 2;   //player's central x 
-	float pcy = slime.getY() + slime.Height / 2;  //player's central y
-	float scx = getX() + Width / 2;               //slime's central x
-	float scy = getY() + Height / 2;              //slime's central y
+	float scx = slime.getX() + slime.Width / 2;   //slime's central x 
+	float scy = slime.getY() + slime.Height / 2;  //slime's central y
+	float pcx = getX() + Width / 2;               //player's central x
+	float pcy = getY() + Height / 2;              //player's central y
 	if (isLeft)
 	{
 
@@ -200,10 +206,23 @@ bool Player::checkSlimeCollision(const Slime& slime)
 	}
 	if (!isLeft)
 	{
-		if (scx - pcx >= 0 && scx - pcx <= HitBoxW && fabs(scx - pcx) <= HitBoxH)
+		if (scx - pcx >= 0 && scx - pcx <= HitBoxW && fabs(scy - pcy) <= HitBoxH)
 		{
 			return true;
 		}
 	}
 	return false;
+}
+
+void Player::onDeath()
+{
+	alive = false;
+	if (isLeft)
+	{
+		Knight_DeathL.resetDeath();
+	}
+	else
+	{
+		Knight_DeathR.resetDeath();
+	}
 }

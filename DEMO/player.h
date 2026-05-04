@@ -39,16 +39,18 @@ public:
 
 	bool isLeft;
 	bool isOnGround = true;
-	bool invincible = false;                //无敌
+	bool invincible = false;         //无敌
 	bool getHurt = false;
 	bool isAttackingS = false;      //轻攻击
 	bool isAttackingH = false;      //重攻击
+	bool hasHit = false;            //确保只造成一次伤害 
 
 	bool isAlive();
 	bool checkSlimeCollision(const Slime& slime);
 	void checkSlimeAttack(Slime& slime);
 	void PhyUpdate(float dt);
 	void takeDamage(int num);
+	void onDeath();
 };
 
 #endif
