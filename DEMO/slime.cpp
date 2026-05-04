@@ -113,6 +113,7 @@ void Slime::Move(const Player& player,float dt)
 	{
 		isAttacking = true;
 		attackTimer = 0;
+		hasAttacked = false;
 		return;
 	}
 

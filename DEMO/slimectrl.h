@@ -3,7 +3,7 @@
 #define SLIMECTRL_H
 #include "slime.h"
 
-constexpr int MAX_SLIME = 3;       //变量初始化
+constexpr int MAX_SLIME = 10;       //变量初始化
 extern Slime* pSlime[MAX_SLIME];
 extern int slimecount;
 
