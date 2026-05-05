@@ -1,7 +1,7 @@
 ﻿#include "slimectrl.h"
 
 float spawntimer = 0.0f;
-float INTERVAL = 2.0f;
+float INTERVAL = 3.0f;
 
 Slime* pSlime[MAX_SLIME];
 int slimecount = 0;
@@ -19,10 +19,11 @@ void updateSlime(Player& player, float dt)
 {
 	for (int i = 0; i < slimecount; ++i)
 	{
-		if (pSlime[i]->isAlive())
+		if (pSlime[i]->isAlive() && pSlime[i] != nullptr)
 		{
 			pSlime[i]->Move(player,dt);
 			pSlime[i]->CheckPlayerAttack(player);
+			player.checkSlimeAttack(*pSlime[i]);
 		}
 	}
 }
@@ -49,7 +50,7 @@ void drawSlime()
 {
 	for (int i = 0; i < slimecount; ++i) 
 	{
-		pSlime[i]->showSlime(delta_ms_copy);
+		pSlime[i]->showSlime((float)delta_ms_copy);
 	}
 }
 

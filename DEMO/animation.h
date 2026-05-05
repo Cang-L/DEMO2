@@ -18,16 +18,16 @@ private:
 	std::vector<IMAGE*> frame_right;
 
 public:
-	Animation(LPCTSTR path,int num,int interval);  //路径、图片数量、帧间隔
+	Animation(LPCTSTR path,int num,int interval);   //路径、图片数量、帧间隔
 	~Animation();
 
 	bool attackFinished = false;
 	bool deathFinished = false;
-	void Play(int x, int y, int delta);
-	void attackPlay(int x, int y, int delta);
-	void deathPlay(int x, int y, int delta);
-	void resetAttack();
-	void resetDeath();
+	void Play(int x, int y, int delta);             
+	void attackPlay(int x, int y, int delta);       //攻击动画播放
+	void deathPlay(int x, int y, int delta);        //死亡动画播放
+	void resetAttack();                             //攻击动画重置
+	void resetDeath();                              //死亡动画重置
 };
 
 #endif

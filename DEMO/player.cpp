@@ -16,7 +16,7 @@ Player::Player(float x_0, float y_0)
 	,vy(0)
 	,Height(128)
 	,Width(128)
-	,HitBoxW(80)
+	,HitBoxW(64)
 	,HitBoxH(16)
 	,isLeft(false)
 	,hitDurationS(0.63f)
@@ -24,7 +24,7 @@ Player::Player(float x_0, float y_0)
 	,invincibleTimer(-1.0f)
 	,HurtTime(0.0f)
 	,attackTimerH(0.0f)
-	,attackStartH(0.72f)
+	,attackStartH(0.60f)
 	,attackEndH(1.08f)
 	,attackTimerS(0.0f)
 	,attackStartS(0.18f)
@@ -70,7 +70,7 @@ void Player::PhyUpdate(float dt)
 	if (isAlive() && getHurt && HurtTime > 0)
 	{
 		float hurtSpeed = 20.0f;
-        if (isLeft)
+		if (isLeft)
 		{
 			vx = hurtSpeed;
 		}
@@ -145,8 +145,8 @@ void Player::takeDamage(int num)
 
     getHurt = true;
 	invincible = true;
-	invincibleTimer = 0.8f;
-	HurtTime = 0.3f;
+	invincibleTimer = 0.70f;
+	HurtTime = 0.35f;
 
 	isAttackingS = false;
 	isAttackingH = false;

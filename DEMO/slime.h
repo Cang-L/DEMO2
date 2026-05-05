@@ -31,12 +31,12 @@ public:
 	float HitBoxW;
 	float HitBoxH;
 
-	bool isAttacking;
+	bool isAttacking;       //正在攻击
 	bool isLeft;
 	bool alive;
 	bool getHurt;           //受伤(硬直)
 	bool animeFinish;       //!isAlive()&&animeFinish 后 delete
-	bool invincible;
+	bool invincible;        //无敌
 
 	float attackTimer;      //攻击计时
 	float attackCooldown;   //攻击间隔
@@ -59,19 +59,19 @@ public:
 	void Move(const Player& player,float dt);        //跟踪玩家移动
 	void takeDamage(int damage);
 
-	void CheckPlayerAttack(Player& player);    //攻击检查
-	bool CheckPlayerCollision(const Player& player);
+	void CheckPlayerAttack(Player& player);           //对玩家攻击检查
+	bool CheckPlayerCollision(const Player& player);  //碰撞箱检测
 	
-	bool isAlive() const                             //检查是否存活
-	{
+	bool isAlive() const                              //检查Slime是否存活
+	{ 
 		return alive;
 	}
 
-	void setDeath();
+	void setDeath();                                  //设置死亡
 
-	void showSlime(float dt_ms);
+	void showSlime(float dt_ms);                      //动画处理
 };
 
-void printScore();
+void printScore();                                    //左上角显示击杀数
 
 #endif

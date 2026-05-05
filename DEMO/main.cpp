@@ -48,12 +48,6 @@ int main()
 			pPlayer->PhyUpdate((float)TIME_STEP);
 			updateSlime(*pPlayer,(float)TIME_STEP);
 			spawnSlime((float)TIME_STEP);
-			for (int i = 0; i < slimecount; i++)
-			{
-				if (pSlime[i] != nullptr && pSlime[i]->isAlive()) {
-					pPlayer->checkSlimeAttack(*pSlime[i]);
-				}
-			}
 			accumulator -= TIME_STEP;
 		}
 
@@ -75,7 +69,7 @@ int main()
 		printScore();
 		FlushBatchDraw();
 
-		DwmFlush();//垂直同步
+		DwmFlush();  //垂直同步
 	}
 
 	delete pPlayer;

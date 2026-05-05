@@ -268,10 +268,10 @@ void Slime::takeDamage(int damage)
 	}
 
 	getHurt = true;
-	remainHurt = 0.2f;
+	remainHurt = 0.3f;
 
 	invincible = true;
-	invincibleTimer = 0.2f;
+	invincibleTimer = 0.3f;
 }
 
 void printScore()

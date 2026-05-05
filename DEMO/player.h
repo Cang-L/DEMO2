@@ -26,31 +26,31 @@ public:
 
 	float Height, Width;
 	float HitBoxW, HitBoxH;
-	float hitDurationS;                //轻攻击持续时间
-	float hitDurationH;                //重攻击持续时间
+	float hitDurationS;             //轻攻击持续时间
+	float hitDurationH;             //重攻击持续时间
 	float invincibleTimer;          //无敌时间
 	float HurtTime;                 //硬直时间
 	float attackTimerH;             //重攻击计数
 	float attackTimerS;             //轻攻击计数
-	float attackStartH;
-	float attackEndH;
+	float attackStartH;             //重攻击开始时间(起手式)
+	float attackEndH;               //重攻击结束时间
 	float attackStartS;             
 	float attackEndS;
 
 	bool isLeft;
 	bool isOnGround = true;
-	bool invincible = false;         //无敌
-	bool getHurt = false;
+	bool invincible = false;        //无敌
+	bool getHurt = false;           //受伤
 	bool isAttackingS = false;      //轻攻击
 	bool isAttackingH = false;      //重攻击
 	bool hasHit = false;            //确保只造成一次伤害 
 
 	bool isAlive();
-	bool checkSlimeCollision(const Slime& slime);
-	void checkSlimeAttack(Slime& slime);
-	void PhyUpdate(float dt);
-	void takeDamage(int num);
-	void onDeath();
+	bool checkSlimeCollision(const Slime& slime);    //碰撞箱检测
+	void checkSlimeAttack(Slime& slime);             //对Slime的攻击
+	void PhyUpdate(float dt);                        //状态更新
+	void takeDamage(int num);                        //受击
+	void onDeath();                                  //设置死亡
 };
 
 #endif
