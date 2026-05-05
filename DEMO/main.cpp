@@ -72,6 +72,7 @@ int main()
 
 		AnimeUpdate(pPlayer);
 		drawSlime();
+		printScore();
 		FlushBatchDraw();
 
 		DwmFlush();//垂直同步

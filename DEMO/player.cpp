@@ -177,7 +177,7 @@ void Player::checkSlimeAttack(Slime& slime)
 	{
 		if (!hasHit && checkSlimeCollision(slime))
 		{
-			slime.takeDamage(2, (slime.getX() > getX()) ? 1.0f : -1.0f);
+			slime.takeDamage(2);
 			hasHit = true;
 		}
 	}
@@ -185,7 +185,7 @@ void Player::checkSlimeAttack(Slime& slime)
 	{
 		if (!hasHit && checkSlimeCollision(slime))
 		{
-			slime.takeDamage(1,(slime.getX()>getX())?1.0f:-1.0f);
+			slime.takeDamage(1);
 			hasHit = true;
 		}
 	}

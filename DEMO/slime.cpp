@@ -1,6 +1,8 @@
 ﻿#include "slime.h"
 #include <cmath>
 
+int DeadSlimeNum = 0;
+
 Slime::Slime(float x_0, float y_0)
 	:x(x_0)
 	, y(y_0)
@@ -28,7 +30,7 @@ Slime::Slime(float x_0, float y_0)
     ,attackEnd(0.20f)
 	,attackArea(100.0f)
     ,cooldownTimer(0.0f)
-	,attackCooldown(2.0f)
+	,attackCooldown(3.0f)
 	,attackTimer(0.0f)
 	,deathAnimeTimer(0.0f)
 	,invincibleTimer(-1.0f)
@@ -141,9 +143,19 @@ void Slime::Move(const Player& player,float dt)
 void Slime::setDeath()
 {
 	alive = false;
+	animeFinish = false;
+	deathAnimeTimer = 0.0f;
+	if (isLeft)
+	{
+		Slime_DeathL.resetDeath();
+	}
+	else
+	{
+		Slime_DeathR.resetDeath();
+	}
 }
 
-void Slime::showSlime(float dt)
+void Slime::showSlime(float dt_ms)
 {
 	if (isAlive())
 	{
@@ -172,13 +184,13 @@ void Slime::showSlime(float dt)
 	}
 	else if (!isAlive())
 	{
-		if (animeFinish) 
+		if (animeFinish)
 		{
 			return;
 		}
 		
-		deathAnimeTimer += dt;
-		if (deathAnimeTimer < 1.0f)
+		deathAnimeTimer += dt_ms;
+		if (deathAnimeTimer < 500.0f)
 		{
 			if (isLeft)
 			{
@@ -235,7 +247,7 @@ bool Slime::CheckPlayerCollision(const Player& player)
 	return false;
 }
 
-void Slime::takeDamage(int damage,float Dir)
+void Slime::takeDamage(int damage)
 {
 	if (!alive)
 	{
@@ -249,17 +261,27 @@ void Slime::takeDamage(int damage,float Dir)
 	hp -= damage;
 	if (hp <= 0)
 	{
-		alive = false;
-		deathAnimeTimer = 0.0f;
-		animeFinish = false;
+		setDeath();
 		vx = 0;
+		DeadSlimeNum++;
 		return;
 	}
 
 	getHurt = true;
 	remainHurt = 0.2f;
 
-	vx = Dir * 100.0f;
 	invincible = true;
 	invincibleTimer = 0.2f;
+}
+
+void printScore()
+{
+	settextcolor(WHITE);
+	settextstyle(24, 0, _T("Consolas"));
+	setbkmode(TRANSPARENT);
+
+	TCHAR text[64];
+	_stprintf_s(text, _T("击败史莱姆: %d"), DeadSlimeNum);
+
+	outtextxy(10, 10, text);
 }

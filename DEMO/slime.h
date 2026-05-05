@@ -7,6 +7,7 @@
 
 extern float spawnTimer;
 extern const float SPAWN_INTERVAL;
+extern int DeadSlimeNum;
 
 class Slime
 {
@@ -56,7 +57,7 @@ public:
 	float getY() const { return y; }
 
 	void Move(const Player& player,float dt);        //跟踪玩家移动
-	void takeDamage(int damage,float Dir);
+	void takeDamage(int damage);
 
 	void CheckPlayerAttack(Player& player);    //攻击检查
 	bool CheckPlayerCollision(const Player& player);
@@ -68,7 +69,9 @@ public:
 
 	void setDeath();
 
-	void showSlime(float dt);
+	void showSlime(float dt_ms);
 };
+
+void printScore();
 
 #endif
